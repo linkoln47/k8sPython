@@ -1,8 +1,10 @@
-
 from configuration import *
-from flask import Flask
+from flask import Flask, render_template, json
+from flask_cors import CORS, cross_origin
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='template')
+cors=CORS(app)
+app.config['CORS_HEADER']='Content-Type'
 v1 = client.CoreV1Api(client.ApiClient(configuration))
 v1A= client.AppsV1Api(client.ApiClient(configuration))
 
@@ -22,34 +24,26 @@ def about():
 
 @app.get("/namespace")
 def namespace():
-    namespace = ''
     ns = v1.list_namespace()
 
-    for i in ns.items:
-        namespace += i.metadata.name + '\n'
+    namespace = [i.metadata.name for i in ns.items]
+
+    #response = app.response_class(response=json.dumps(namespace), status=200, mimetype='application/json')
 
     return namespace
 
 @app.get("/pods/<id>")
 def pods(id):
-    namepods = ''
     pods = v1.list_namespaced_pod(namespace=id)
 
-    for i in pods.items:
-        namepods += i.metadata.name + '\n'
-
-    return namepods
+    return [i.metadata.name for i in pods.items]
 
 
 @app.get("/deployment/<id>")
 def deployment(id: str):
-    namedeployment = ''
     dep = v1A.list_namespaced_deployment(namespace=id)
 
-    for i in dep.items:
-        namedeployment += i.metadata.name + '\n'
-
-    return namedeployment
+    return [i.metadata.name for i in dep.items]
 
 @app.get("/<ns>/all/<id>")
 def Odeployment(ns:str, id: bool):
@@ -69,3 +63,7 @@ def Odeployment(ns:str, id: bool):
                 namespace=ns,
                 body = {'spec': {'replicas': 0}})
         return {"message": "Deployments off"}
+    
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('page_not_found.html'), 404
