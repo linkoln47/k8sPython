@@ -1,11 +1,7 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Namespaces</title>
-  <link rel="stylesheet" href="/static/style.css" />
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Namespaces{% endblock %}
+
+{% block content %}
   <table class="table">
     <tr class="table__header">
       <th class="table__cell">Namespaces</th>
@@ -14,5 +10,4 @@
         <tr><td class="table__cell">{{ name }}</td></tr>
       {% endfor %}
   </table>
-</body>
-</html>
+  {% endblock %}
