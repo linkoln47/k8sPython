@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Services</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <table class="table">
+
+    <tr class="table__cell">
+    {% for i in services.name %}
+        <td>{{ i }}</td>
+    {% endfor %}
+    </tr>
+
+    <tr class="table__cell">
+    {% for i in services.namespace %}
+        <td>{{ i }}</td>
+    {% endfor %}
+    </tr>
+
+    <tr class="table__cell">
+    {% for i in services.cluster_ip %}
+        <td>{{ i }}</td>
+    {% endfor %}
+    </tr>
+
+  </table>
+</body>
+</html>

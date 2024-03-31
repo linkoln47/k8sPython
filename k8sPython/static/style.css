@@ -1,0 +1,10 @@
+.table {   
+    border-spacing: 8px;
+    padding: 8px;
+    font-size: 20px;
+}
+
+.table__cell {
+    background-color:antiquewhite;
+    text-align: center;
+}

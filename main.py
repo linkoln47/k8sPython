@@ -8,11 +8,12 @@ v1A= client.AppsV1Api(client.ApiClient(configuration))
 print("Listing pods with their IPs:")
 while(True):
 
-    term = input("Welcome! Choose number(0-6): ")
+    term = input("Welcome! Choose number(0-7): ")
     node = v1.list_node()
     pod = v1.list_pod_for_all_namespaces(watch=False)
     ns = v1.list_namespace()
     svc = v1.list_service_for_all_namespaces(watch=False)
+    ret = v1.list_pod_for_all_namespaces(watch=False)
     match term:
         case '0':
             for i in node.items:
@@ -35,6 +36,9 @@ while(True):
             for i in dep.items:
                 print("%s\t%s" % (i.metadata.namespace, i.metadata.name))
         case '5':
+            for i in ret.items:
+                print("%s\t%s\t%s" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
+        case '6':
 
             dep = v1A.list_deployment_for_all_namespaces()
             for i in dep.items:
@@ -42,7 +46,7 @@ while(True):
                     name=i.metadata.name, 
                     namespace='default', 
                     body = {'spec': {'replicas': 0}})
-        case '6':
+        case '7':
 
             dep = v1A.list_deployment_for_all_namespaces()
             for i in dep.items:
