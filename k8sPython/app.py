@@ -8,7 +8,10 @@ app.secret_key = secret_key
 
 @app.get("/")
 def read_root():
-    return render_template("index.html")
+    ns = v1.list_namespace()
+
+    data = [i.metadata.name for i in ns.items]
+    return render_template(["index.html", "base.html"], namespaces=data)
 
 @app.route("/login", methods=['POST', 'GET'])
 def login():
@@ -16,8 +19,6 @@ def login():
         user = request.form["nm"]
         password = request.form["pswd"]
         if user == "root" and password == "root":
-            session["user"] = user
-            session["password"] = password
             return redirect(url_for("user"))
         else:
             return redirect(url_for("login"))
@@ -47,8 +48,12 @@ def about():
         node = v1.list_node()
 
         for i in node.items:
-            data = {i.metadata.name: i.status.allocatable}
-        return data
+            data = {
+                "name": [i.metadata.name for i in node.items],
+                "status": [i.status.allocatable for i in node.items],
+                "spec": [i.spec.pod_cidr for i in node.items]
+                    }
+        return render_template("node.html", node=data)
     else:
         return redirect(url_for("login"))
 
@@ -57,9 +62,9 @@ def namespace():
     if "user" in session and "password" in session:
         ns = v1.list_namespace()
 
-        namespace = [i.metadata.name for i in ns.items]
+        data = [i.metadata.name for i in ns.items]
 
-        return render_template("namespaces_list.html", namespace=namespace)
+        return render_template("namespaces_list.html", namespace=data)
     else:
         return redirect(url_for("login"))
 
@@ -124,7 +129,7 @@ def services(id: str):
             data = {
                 "name": [i.metadata.name for i in all_services.items],
                 "namespace": [i.metadata.namespace for i in all_services.items],
-                #"cluster_ip": [i.spec.clusterIP for i in all_services.items]
+                "cluster_ip": [i.spec.cluster_ip for i in all_services.items]
             }
 
             return render_template("services_list.html", services=data)

@@ -1,5 +1,6 @@
 .table {   
-    border-spacing: 8px;
+    border: 2px solid black;
+    border-collapse: collapse;
     padding: 8px;
     font-size: 20px;
 }
@@ -7,4 +8,8 @@
 .table__cell {
     background-color:antiquewhite;
     text-align: center;
+}
+
+td, th {
+    border: 2px solid black;
 }

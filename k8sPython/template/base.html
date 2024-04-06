@@ -28,7 +28,43 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="/namespace">Namespaces</a>
-                  </li>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Pods
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for i in namespaces %}
+                    <a class="dropdown-item" href="/pods/{{ i }}">{{ i }}</a>
+                    {% endfor %}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/pods/all">List pods for all namespaces</a>
+                  </div>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Deployments
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for i in namespaces %}
+                    <a class="dropdown-item" href="/deployments/{{ i }}">{{ i }}</a>
+                    {% endfor %}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/deployments/all">List deployments for all namespaces</a>
+                  </div>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Services
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for i in namespaces %}
+                    <a class="dropdown-item" href="/services/{{ i }}">{{ i }}</a>
+                    {% endfor %}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/services/all">List services for all namespaces</a>
+                  </div>
+                </li>
                 <li class="nav-item">
                   <a class="nav-link active" href="/logout">Log out</a>
                 </li>
