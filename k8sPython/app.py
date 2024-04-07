@@ -1,5 +1,5 @@
 from configuration import *
-from flask import Flask, render_template, session, redirect, request, url_for
+from flask import Flask, flash, render_template, session, redirect, request, url_for
 
 app = Flask(__name__, template_folder='template')
 app.config['CORS_HEADER']='Content-Type'
@@ -7,7 +7,7 @@ app.secret_key = secret_key
 
 
 @app.get("/")
-def read_root():
+def home_page():
     ns = v1.list_namespace()
 
     data = [i.metadata.name for i in ns.items]
@@ -19,16 +19,20 @@ def login():
         user = request.form["nm"]
         password = request.form["pswd"]
         if user == "root" and password == "root":
+            session["user"] = user
+            session["password"] = password           
             return redirect(url_for("user"))
         else:
             return redirect(url_for("login"))
     else:
         if "user" in session and "password" in session:
-            return redirect(url_for("user"))
+            flash("You already logged in", "info")
+            return redirect(url_for("home_page"))
         return render_template("login.html")
     
 @app.get("/logout")
 def logout():
+    flash("user is logged out", "info")
     session.pop("user", None)
     session.pop("password", None)
     return redirect(url_for("login"))
@@ -38,7 +42,8 @@ def user():
     if "user" in session and "password" in session:
         user = session["user"]
         password = session["password"]
-        return f"<h1>{user} {password}</h1>"
+        flash(f"Success logged in as {user} : {password}", "info") 
+        return redirect(url_for("home_page"))
     else:
         return redirect(url_for("login"))
 
