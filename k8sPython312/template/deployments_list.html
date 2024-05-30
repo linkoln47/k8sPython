@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Deployments{% endblock %}
+{% block content %}
+  <table class="table">
+
+    <tr class="table__cell">
+    {% for i in deployments.name %}
+        <td>{{ i }}</td>
+    {% endfor %}
+    </tr>
+
+    <tr class="table__cell">
+    {% for i in deployments.namespace %}
+        <td>{{ i }}</td>
+    {% endfor %}
+    </tr>
+
+    <tr class="table__cell">
+    {% for i in deployments.replicas %}
+        <td>{{ i }}</td>
+    {% endfor %}
+    </tr>
+
+  </table>
+  {% endblock %}

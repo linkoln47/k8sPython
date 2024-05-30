@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Namespaces{% endblock %}
+
+{% block content %}
+  <table class="table">
+    <tr class="table__header">
+      <th class="table__cell">Namespaces</th>
+    </tr>
+      {% for name in namespace %}
+        <tr><td class="table__cell">{{ name }}</td></tr>
+      {% endfor %}
+  </table>
+  {% endblock %}
